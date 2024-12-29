@@ -67,8 +67,12 @@ def run(context):
         # Check root component
         root_comp = design.rootComponent
 
-        # Fetch components
+        # Fetch components directly under the root component or any top-level component
         components = [occ.component for occ in root_comp.occurrences]
+
+        # If no components are directly under root, check if there's only a single standalone component (non-hierarchical)
+        if not components:
+            components = [root_comp]  # Fallback to just the root component if there are no subcomponents
 
         if components:
             components_list = "\n".join([comp.name for comp in components])
